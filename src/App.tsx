@@ -1,21 +1,12 @@
 import * as Axios from 'axios';
 import * as React from 'react';
+import { ListGroup, ListGroupItem, Table } from 'react-bootstrap'
 import './App.css';
 
 
 import logo from './logo.svg';
 
-const ulBlockStyle: React.CSSProperties = { listStyleType: "none" }
-
-const mainBlockStyle: React.CSSProperties = { width: "100%", backgroundColor: "red" }
-
-const leftBlockStyles: React.CSSProperties = {
-  backgroundColor: "pink", float: "left", width: "200px"
-}
-
-const rightBlockStyles: React.CSSProperties = {
-  backgroundColor: "yellow", marginLeft: "200px"
-}
+const styleLeftAlign: React.CSSProperties = { textAlign: "left" }
 
 interface IAppState {
   selectedEntry: string,
@@ -30,7 +21,6 @@ interface IFilmData {
 class App extends React.Component<any, IAppState>{
 
   private characters: string[] = [];
-  // private details: Map<string, string[]>;
   private personData: any;
   private filmsData: any;
   private characterToFilms: Map<string, string[]>;
@@ -74,16 +64,14 @@ class App extends React.Component<any, IAppState>{
 
   public render() {
     const allEntries = this.characters.map(this.mapEntry);
-    // tslint:disable:no-console 
-    // console.log(this.details);
     const value = this.characterToFilms.get(this.state.selectedEntry);
     const description = !value ? undefined : value.map((url) => {
       const filmData = this.filmUrlToFilmData.get(url);
       return (
-        <div key={url}>
-          <span>{filmData ? filmData.title : ""}</span>
-          <span>{filmData ? filmData.releaseDate : ""}</span>
-        </div>
+        <tr key={url}>
+          <td style={styleLeftAlign}>{filmData ? filmData.title : ""}</td>
+          <td style={styleLeftAlign}>{filmData ? filmData.releaseDate : ""}</td>
+        </tr>
       )
     });
     return (
@@ -92,24 +80,30 @@ class App extends React.Component<any, IAppState>{
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div style={mainBlockStyle}>
-          <div style={leftBlockStyles}>
-            <ul style={ulBlockStyle}>
+        <div>
+          <div>
+            <ListGroup>
               {allEntries}
-            </ul>
-
+            </ListGroup>
           </div>
-          <div style={rightBlockStyles}>
-            {description}
-          </div>
+          <Table striped={true} bordered={true} condensed={true} hover={true}>
+            <thead>
+              <tr>
+                <th>Movie</th>
+                <th>Released Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {description}
+            </tbody>
+          </Table>
         </div>
-
       </div>
     );
   }
 
   private mapEntry = (entry: string): JSX.Element => {
-    return <li key={entry}><button onClick={this.selectItem.bind(this, entry)}>{entry}</button></li>
+    return <ListGroupItem key={entry} onClick={this.selectItem.bind(this, entry)}>{entry}</ListGroupItem>
   }
 
   private selectItem = (entry: string) => {

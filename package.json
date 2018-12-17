@@ -17,8 +17,10 @@
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.15",
     "@types/react": "^16.7.17",
+    "@types/react-bootstrap": "^0.32.15",
     "@types/react-dom": "^16.0.11",
     "axios": "^0.18.0",
+    "react-bootstrap": "^0.32.4",
     "typescript": "^3.2.2"
   }
 }
