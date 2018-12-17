@@ -1,4 +1,5 @@
 import * as Axios from 'axios';
+import * as dateFormat from 'dateformat';
 import * as React from 'react';
 import { ListGroup, ListGroupItem, Table } from 'react-bootstrap'
 import './App.css';
@@ -67,14 +68,15 @@ class App extends React.Component<any, IAppState>{
     const value = this.characterToFilms.get(this.state.selectedEntry);
     const description = !value ? undefined : value.map((url) => {
       const filmData = this.filmUrlToFilmData.get(url);
-      let dateStr = new Date();
+      
+      let dateStr = '';
       if (filmData && filmData.releaseDate) {
-        dateStr = new Date(filmData.releaseDate);
+        dateStr = dateFormat(new Date(filmData.releaseDate), 'dddd, mmmm dS, yyyy');
       }
       return (
         <tr key={url}>
           <td style={styleLeftAlign}>{filmData ? filmData.title : ""}</td>
-          <td style={styleLeftAlign}>{filmData ? dateStr.toString() : ""}</td>
+          <td style={styleLeftAlign}>{filmData ? dateStr : ""}</td>
         </tr>
       )
     });
