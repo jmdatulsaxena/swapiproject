@@ -67,10 +67,14 @@ class App extends React.Component<any, IAppState>{
     const value = this.characterToFilms.get(this.state.selectedEntry);
     const description = !value ? undefined : value.map((url) => {
       const filmData = this.filmUrlToFilmData.get(url);
+      let dateStr = new Date();
+      if (filmData && filmData.releaseDate) {
+        dateStr = new Date(filmData.releaseDate);
+      }
       return (
         <tr key={url}>
           <td style={styleLeftAlign}>{filmData ? filmData.title : ""}</td>
-          <td style={styleLeftAlign}>{filmData ? filmData.releaseDate : ""}</td>
+          <td style={styleLeftAlign}>{filmData ? dateStr.toString() : ""}</td>
         </tr>
       )
     });
